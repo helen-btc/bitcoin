@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Helen's Bitcoin Wallet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #F7F7F7;
+      color: #333333;
+      text-align: center;
+    }
+    h1 {
+      font-size: 36px;
+      margin-top: 50px;
+    }
+    p {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Helen's Bitcoin Wallet</h1>
+  <p id="price"></p>
+
+  <script>
+	let amount = 0.0037;
+    function getBitcoinPrice() {
+      fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+        .then(response => response.json())
+        .then(data => {
+          const price = parseFloat(data.bpi.USD.rate.split(',').join(''));
+          document.getElementById('price').textContent = `${amount} Bitcoin = $${price * amount}`;
+        })
+        .catch(error => console.error(error));
+    }
+	
+    getBitcoinPrice();
+    setInterval(getBitcoinPrice, 60000);
+  </script>
+</body>
+</html>
