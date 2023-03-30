@@ -21,7 +21,7 @@
   </style>
 </head>
 <body>
-  <h1>Helen's Bitcoin Wallet</h1>
+  <h1>Helen's Bitcoin Wallet!</h1>
   <p id="price"></p>
 
   <script>
@@ -30,14 +30,16 @@
       fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
         .then(response => response.json())
         .then(data => {
-          const price = parseFloat(data.bpi.USD.rate.split(',').join(''));
-          document.getElementById('price').textContent = `${amount} Bitcoin = $${price * amount}`;
+          let price = parseFloat(data.bpi.USD.rate.split(',').join(''));
+		  price = Math.round(price * amount * 100).toString();
+		  price = price.slice(0, -2) + '.' + price.slice(-2);
+          document.getElementById('price').textContent = `${amount} BTC = $${price} USD`;
         })
         .catch(error => console.error(error));
     }
 	
     getBitcoinPrice();
-    setInterval(getBitcoinPrice, 60000);
+    setInterval(getBitcoinPrice, 1000);
   </script>
 </body>
 </html>
